@@ -5,25 +5,54 @@ import { Landing } from './components/Landing'
 import { Signin } from './components/Signin';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './utils/firebase';
+import { RecoilRoot, useRecoilState, useSetRecoilState } from 'recoil';
+import { userAtom } from './store/atoms/user';
 
 
 function App() {
+  return <RecoilRoot>
+    <StoreApp />
+  </RecoilRoot>
+}
+
+function StoreApp(){
+  const[user, setUser] = useRecoilState(userAtom)
 
   useEffect(() => {
     onAuthStateChanged(auth ,function(user) {
-    if (user) {
+    if (user && user.email) {
+        setUser({
+          Loading: false,
+          user:{
+            email: user.email
+          }
+        })
         console.log('This is the user: ', user)
     } else {
-        // No user is signed in.
+        setUser({
+          Loading: false
+        })
         console.log('There is no logged in user');
     }
 });
   }, [])
 
-  return (
-    <div>
+  if(user.Loading){
+    return <div>
+      Loading....
+    </div>
+  }
+
+  if(!user.user){
+    return <div>
       <Signin/>
     </div>
+  }
+
+  return (
+    <>
+      you are logged in as {user.user?.email}
+    </>
   )
 }
 
