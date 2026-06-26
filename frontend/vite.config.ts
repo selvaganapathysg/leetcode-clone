@@ -8,4 +8,13 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  server:{
+    hmr:{
+      overlay:true
+    },
+    watch:{
+      usePolling:true,
+      interval:100
+    }
+  }
 })

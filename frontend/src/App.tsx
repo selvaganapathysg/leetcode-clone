@@ -5,8 +5,10 @@ import { Landing } from './components/Landing'
 import { Signin } from './components/Signin';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './utils/firebase';
-import { RecoilRoot, useRecoilState, useSetRecoilState } from 'recoil';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import { userAtom } from './store/atoms/user';
+import { Topbar } from './components/Topbar';
+import { Cards } from './components/Cards';
 
 
 function App() {
@@ -50,9 +52,12 @@ function StoreApp(){
   }
 
   return (
-    <>
-      you are logged in as {user.user?.email}
-    </>
+    <div className="place-items-center grid">
+      <div className="max-w-screen-lg w-full">
+        <Topbar/>
+        <Cards> hi there </Cards>
+      </div>
+    </div>
   )
 }
 
